@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>vsrenamer</AssemblyName>
+    <RootNamespace>Visual.Studio.Solution.Renamer.CommandLine</RootNamespace>
+  </PropertyGroup>
+  <!-- Dotnet Tool Specific settings -->
+  <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <PackageId>vsrenamer</PackageId>
+    <Title>Visual.Studio.Solution.Renamer</Title>
+    <ToolCommandName>vsrenamer</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Vaspo</Authors>
+    <Owners>Vaspo</Owners>
+    <PackageDescription>Allows to rename a solution, its projects and namespaces</PackageDescription>
+    <PackageTags>csharp vs visual studio rename solution project namespace</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/zanybaka/Visual.Studio.Solution.Renamer</RepositoryUrl>
+    <PackageReleaseNotes>Initial version</PackageReleaseNotes>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\LICENSE" Pack="True" Visible="False" PackagePath="">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>  
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Visual.Studio.Solution.Renamer.Library\Visual.Studio.Solution.Renamer.Library.csproj" />
+  </ItemGroup>
+</Project>

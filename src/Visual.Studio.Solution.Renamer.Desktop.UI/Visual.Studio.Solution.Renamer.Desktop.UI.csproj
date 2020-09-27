@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Visual.Studio.Solution.Renamer.Desktop.UI</AssemblyName>
+    <RootNamespace>Visual.Studio.Solution.Renamer.Desktop.UI</RootNamespace>
+  </PropertyGroup>
+</Project>
