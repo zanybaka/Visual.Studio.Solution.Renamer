@@ -1,12 +1,3 @@
-<style>
-a[href='warn'] {
-    color: red;
-    pointer-events: none;
-    cursor: default;
-    text-decoration: none;
-}
-</style>
-
 Visual Studio Solution Renamer
 ===
 
@@ -61,7 +52,7 @@ Limitations
 - C# projects only
 - No source version control history support
 
-[Be aware](warn)
+<h2 style="color:red">Be aware</h2>
 ---
 
 - No backup feature
