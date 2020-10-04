@@ -33,6 +33,12 @@ If you need to update a solution with ".." paths you can use the following comma
 vsrenamer.exe -w c:\Sources\projectD\src\ -a -f projectD -t projectDDD -c -m "*.sln *.csproj *.xaml *.cs *.xml" -p
 ```
 
+Also you can install and run its GUI version
+```shell
+dotnet tool install -g vsrenamer_gui
+vsrenamer_gui.exe
+```
+
 Under the hood
 ---
 
