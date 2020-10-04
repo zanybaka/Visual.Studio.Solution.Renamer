@@ -9,18 +9,18 @@ Get started
 
 The tool is intended to be used as a global dotnet tool. 
 
-```
+```shell
 dotnet tool install -g vsrenamer
 ```
 
 Then you can run it directly from the command line:
 
-```
+```shell
 vsrenamer.exe -w <solution directory> [other parameters]
 ```
 
 Examples:
-```
+```shell
 vsrenamer.exe --help
 vsrenamer.exe --workingdirectory c:\Sources\projectA\src\ --apply --from projectA --to projectAAA --solution MySolution.sln
 vsrenamer.exe -w c:\Sources\projectA\src\ --apply --cleanup
@@ -29,7 +29,7 @@ vsrenamer.exe -w c:\Sources\projectC\src\ -a -f projectC -t projectCCC -c --verb
 ```
 
 If you need to update a solution with ".." paths you can use the following command line:
-```
+```shell
 vsrenamer.exe -w c:\Sources\projectD\src\ -a -f projectD -t projectDDD -c -m "*.sln *.csproj *.xaml *.cs *.xml" -p
 ```
 
@@ -52,13 +52,13 @@ Limitations
 - C# projects only
 - No source version control history support
 
-<h2 style="color:red">Be aware</h2>
+Be aware
 ---
 
-- No backup feature
-- No roll-back feature
-- No proper symlinks support
-- Tested with
+- &#x1F534; No backup feature
+- &#x1F534; No roll-back feature
+- &#x1F534; No proper symlinks support
+- &#x1F534; Tested with
     - Microsoft Visual Studio Solution File, Format Version 12.00
     - Visual Studio Version 16 (2019)
 
