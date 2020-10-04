@@ -67,5 +67,7 @@ References
 
 * [Serilog](https://serilog.net/) library
     * [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0)
+* [Command Line Parser Library for CLR and NetStandard](https://github.com/commandlineparser/commandline)
+    * [MIT License](https://github.com/zzzprojects/html-agility-pack/blob/master/LICENSE)
 * [Microsoft.Build](https://github.com/dotnet/msbuild) library
     * [MIT License](https://github.com/zzzprojects/html-agility-pack/blob/master/LICENSE)
