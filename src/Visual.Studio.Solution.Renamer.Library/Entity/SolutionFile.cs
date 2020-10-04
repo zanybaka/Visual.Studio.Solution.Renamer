@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Visual.Studio.Solution.Renamer.Library.Entity.Project;
@@ -73,7 +74,8 @@ namespace Visual.Studio.Solution.Renamer.Library.Entity
                 project.RawValue,
                 string.Format(ProjectFormat, project.TypeGuid, project.ProjectName,
                               project.RelativePath,
-                              project.Guid, project.Content));
+                              project.Guid, project.Content),
+                StringComparison.InvariantCultureIgnoreCase);
         }
 
         public void SaveToDisk()

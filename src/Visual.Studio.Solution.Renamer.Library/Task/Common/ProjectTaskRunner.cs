@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Serilog;
 using Visual.Studio.Solution.Renamer.Library.Builder;
@@ -11,11 +12,18 @@ namespace Visual.Studio.Solution.Renamer.Library.Task.Common
     {
         private readonly TargetProject _project;
         private readonly ProjectTaskCreator _taskCreator;
+        private Action _onUpdate;
 
         public ProjectTaskRunner(TargetProject project, ProjectTaskCreator taskCreator)
         {
             _project     = project;
             _taskCreator = taskCreator;
+        }
+
+        public ITaskRunner OnUpdate(Action action)
+        {
+            _onUpdate = action ?? (() => { });
+            return this;
         }
 
         public bool Run(bool preview)
@@ -25,6 +33,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task.Common
             ProjectFinder        projectFinder     = new ProjectFinder();
             ProjectUpdater       projectUpdater    = new ProjectUpdater();
             bool                 atLeastOneUpdated = false;
+            _onUpdate();
             if (options.SolutionFullPath.IsNotEmpty())
             {
                 var projects = projectFinder
@@ -33,12 +42,14 @@ namespace Visual.Studio.Solution.Renamer.Library.Task.Common
                         fileName: Path.GetFileName(options.SolutionFullPath))
                     .ToArray();
 
+                _onUpdate();
                 projectUpdater.Run(
                     projects,
                     project =>
                     {
                         var task = _taskCreator.Create<ProjectInSolution>();
                         atLeastOneUpdated |= task.Run(project, (UpdateProjectOptions) options.WithPreview(preview));
+                        _onUpdate();
                     });
             }
             else
@@ -49,12 +60,14 @@ namespace Visual.Studio.Solution.Renamer.Library.Task.Common
                         options.CsProjFileMasks)
                     .ToArray();
 
+                _onUpdate();
                 projectUpdater.Run(
                     projects,
                     project =>
                     {
                         var task = _taskCreator.Create<ProjectInFileSystem>();
                         atLeastOneUpdated |= task.Run(project, (UpdateProjectOptions) options.WithPreview(preview));
+                        _onUpdate();
                     });
             }
 

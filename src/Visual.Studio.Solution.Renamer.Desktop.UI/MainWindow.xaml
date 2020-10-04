@@ -3,7 +3,116 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Visual.Studio.Solution.Renamer.Desktop.UI"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid />
+        d:DataContext="{d:DesignInstance ui:UIOptions, IsDesignTimeCreatable=True}"
+        Title="Visual.Studio.Solution.Renamer" Height="700" Width="800">
+    <Grid Margin="10">
+        <Grid.Resources>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Margin" Value="10 0 0 0" />
+            </Style>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0 15 0 0" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Margin" Value="0 15 0 0" />
+            </Style>
+            <Style TargetType="{x:Type ListBox}">
+                <Setter Property="Margin" Value="0 15 0 0" />
+            </Style>
+            <Style TargetType="{x:Type CheckBox}">
+                <Setter Property="Margin" Value="0 15 0 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Working Directory:" />
+        <TextBox Text="{Binding WorkingDirectory}" Grid.Column="2" TextChanged="OnWorkingDirectoryChanged" />
+
+        <TextBlock Grid.Row="1" Text="Replace From:" />
+        <TextBox Grid.Row="1" Text="{Binding ReplaceFrom}" Grid.Column="2" />
+
+        <TextBlock Grid.Row="2" Text="Replace To:" />
+        <TextBox Grid.Row="2" Text="{Binding ReplaceTo}" Grid.Column="2" />
+
+        <TextBlock Grid.Row="3" Text="Mask:" />
+        <ListBox Grid.Row="3" ItemsSource="{Binding MaskCollection}" Grid.Column="2" Height="150"
+                 AlternationCount="100">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding Value, Mode=TwoWay}" Margin="0" />
+                        <Button Content="X" Height="24" Width="24" Click="OnRemoveMask"
+                                Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem},
+                                      Path=(ItemsControl.AlternationIndex)}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+            <Button Content="+" Width="24" Height="24" Margin="0 10 32 0" Click="OnAddMask" />
+            <Button Content="Remove All" Height="24" Margin="0 10 32 0" Click="OnRemoveAllMasks" />
+        </StackPanel>
+
+        <TextBlock Grid.Row="4" Text="Ignore solution file?" />
+        <CheckBox Grid.Row="4" IsChecked="{Binding UseCsProj}" Grid.Column="2" x:Name="chkIgnoreSolutionFile" />
+
+        <TextBlock Grid.Row="5" Text="Solution file:" />
+        <TextBox Grid.Row="5" Text="{Binding SolutionFile}" Grid.Column="2" Margin="0 15 0 0">
+            <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsChecked, ElementName=chkIgnoreSolutionFile}" Value="True">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsChecked, ElementName=chkIgnoreSolutionFile}"
+                                     Value="False">
+                            <Setter Property="IsEnabled" Value="True" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <TextBlock Grid.Row="6" Text="Preview?" />
+        <CheckBox Grid.Row="6" IsChecked="{Binding Preview}" Grid.Column="2" />
+
+        <TextBlock Grid.Row="7" Text="Cleanup?" />
+        <CheckBox Grid.Row="7" IsChecked="{Binding Cleanup}" Grid.Column="2" />
+
+        <TextBlock Grid.Row="8" Text="Verbose?" />
+        <CheckBox Grid.Row="8" IsChecked="{Binding Verbose}" Grid.Column="2" />
+
+        <TextBlock Grid.Row="10" Text="Output:" />
+        <TextBox Grid.Row="10" x:Name="txtOutput" Grid.Column="2" Margin="0 15 0 15"
+                 HorizontalScrollBarVisibility="Auto"
+                 VerticalScrollBarVisibility="Visible" />
+
+        <DockPanel Grid.ColumnSpan="3" Grid.Row="11" HorizontalAlignment="Right">
+            <Button Content="Rename" Click="OnRenameClick" Width="80" />
+            <Button Content="Close" IsDefault="True" Click="OnCloseClick" Width="80" />
+        </DockPanel>
+    </Grid>
 </Window>

@@ -3,7 +3,35 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyName>Visual.Studio.Solution.Renamer.Desktop.UI</AssemblyName>
+    <AssemblyName>vsrenamer_gui</AssemblyName>
     <RootNamespace>Visual.Studio.Solution.Renamer.Desktop.UI</RootNamespace>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
+  <!-- Dotnet Tool Specific settings -->
+  <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <PackageId>vsrenamer_gui</PackageId>
+    <Title>Visual.Studio.Solution.Renamer.GUI</Title>
+    <ToolCommandName>vsrenamer_gui</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Vaspo</Authors>
+    <Owners>Vaspo</Owners>
+    <PackageDescription>Allows to rename a solution, its projects and namespaces</PackageDescription>
+    <PackageTags>csharp vs visual studio rename solution project namespace</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/zanybaka/Visual.Studio.Solution.Renamer</RepositoryUrl>
+    <PackageReleaseNotes>Initial version</PackageReleaseNotes>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+  </PropertyGroup> 
+  <ItemGroup>
+    <None Include="..\..\LICENSE" Pack="True" Visible="False" PackagePath="">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Visual.Studio.Solution.Renamer.Library\Visual.Studio.Solution.Renamer.Library.csproj" />
+  </ItemGroup>
 </Project>

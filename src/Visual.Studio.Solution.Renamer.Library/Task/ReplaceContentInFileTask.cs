@@ -38,7 +38,8 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
                             content
                                 .Replace(
                                     options.From,
-                                    options.To));
+                                    options.To,
+                                    StringComparison.InvariantCultureIgnoreCase));
                     }
 
                     Log.Verbose("Replaced.");

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Serilog;
 using Visual.Studio.Solution.Renamer.Library.Builder;
 using Visual.Studio.Solution.Renamer.Library.Entity;
@@ -18,7 +19,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
             bool updated;
             if (!string.IsNullOrEmpty(options.ReplaceNameFrom) && !string.IsNullOrEmpty(options.ReplaceNameTo))
             {
-                project.ProjectName = project.ProjectName.Replace(options.ReplaceNameFrom, options.ReplaceNameTo);
+                project.ProjectName = project.ProjectName.Replace(options.ReplaceNameFrom, options.ReplaceNameTo, StringComparison.InvariantCultureIgnoreCase);
                 var oldRelativeDir = project.Folder.GetRelativePath(Path.GetDirectoryName(options.SolutionFullPath));
                 updated = UpdateProject(oldRelativeDir, project.Folder, project, options.Preview, keepCsProjFileName: false);
             }

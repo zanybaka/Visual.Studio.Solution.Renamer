@@ -1,4 +1,5 @@
-﻿using Visual.Studio.Solution.Renamer.Library.Task.Common;
+﻿using System;
+using Visual.Studio.Solution.Renamer.Library.Task.Common;
 
 namespace Visual.Studio.Solution.Renamer.Library.Builder
 {
@@ -17,6 +18,11 @@ namespace Visual.Studio.Solution.Renamer.Library.Builder
         internal TOptions Options { get; }
 
         protected abstract ITaskRunner CreateTaskRunner();
+
+        public ITaskRunner OnUpdate(Action action)
+        {
+            return CreateTaskRunner().OnUpdate(action);
+        }
 
         public void Run(bool preview)
         {

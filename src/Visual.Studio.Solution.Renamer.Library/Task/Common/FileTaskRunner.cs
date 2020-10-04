@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Serilog;
 using Visual.Studio.Solution.Renamer.Library.Builder;
 using Visual.Studio.Solution.Renamer.Library.Entity.Folder;
@@ -10,11 +11,18 @@ namespace Visual.Studio.Solution.Renamer.Library.Task.Common
     {
         private readonly TargetFile<TCreator> _file;
         private readonly FolderOrFileTaskCreator<TCreator> _taskCreator;
+        private Action _onUpdate;
 
         public FileTaskRunner(TargetFile<TCreator> file, FolderOrFileTaskCreator<TCreator> taskCreator)
         {
             _file        = file;
             _taskCreator = taskCreator;
+        }
+
+        public ITaskRunner OnUpdate(Action action)
+        {
+            _onUpdate = action ?? (() => { });
+            return this;
         }
 
         public bool Run(bool preview)
@@ -23,6 +31,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task.Common
             UpdateFileOptions options = _file.Options;
             FileFinder        finder  = new FileFinder();
             FileUpdater       updater = new FileUpdater();
+            _onUpdate();
             var files = finder
                 .FindWithMask(
                     options.WorkingDirectory,
@@ -31,12 +40,14 @@ namespace Visual.Studio.Solution.Renamer.Library.Task.Common
                 .ToArray();
 
             bool atLeastOneUpdated = false;
+            _onUpdate();
             updater.Run(
                 files,
                 folder =>
                 {
                     IFolderOrFileTask task = _taskCreator.Create();
                     atLeastOneUpdated |= task.Run(folder, options.WithPreview(preview));
+                    _onUpdate();
                 });
             if (!atLeastOneUpdated) Log.Information("\tTask completed. No changes.");
             return atLeastOneUpdated;

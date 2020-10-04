@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using CommandLine;
 using Serilog;
-using Visual.Studio.Solution.Renamer.Library.Builder;
+using Visual.Studio.Solution.Renamer.Library;
 using Visual.Studio.Solution.Renamer.Library.Entity;
 using Visual.Studio.Solution.Renamer.Library.Extension;
 
@@ -32,7 +32,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
 
             try
             {
-                Cleanup(options);
+                Updates.Cleanup(options);
 
                 UpdateFoldersAndFiles(options);
             }
@@ -130,22 +130,6 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     : logLevel.Information())
                 .WriteTo.Console()
                 .CreateLogger();
-        }
-
-        private static void Cleanup(CommandLineOptions options)
-        {
-            if (!options.Cleanup)
-            {
-                return;
-            }
-
-            Update
-                .Folder.FilteredByName("bin", "obj")
-                .Remove
-                .At.Path(options.WorkingDirectory)
-                .Folder.Recursively()
-                .Itself
-                .Run(options.Preview);
         }
 
         private static void OnWrongArguments(IEnumerable<Error> errors)

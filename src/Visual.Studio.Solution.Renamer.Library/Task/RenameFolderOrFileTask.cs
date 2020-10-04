@@ -31,13 +31,18 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
                     }
 
                     string newName = Path.Combine(Path.GetDirectoryName(entity.AbsolutePath),
-                                                  Path.GetFileName(entity.AbsolutePath).Replace(folderOptions.From, folderOptions.To));
+                                                  Path.GetFileName(entity.AbsolutePath).Replace(folderOptions.From, folderOptions.To, StringComparison.InvariantCultureIgnoreCase));
                     if (entity.AbsolutePath.Equals(newName, StringComparison.InvariantCultureIgnoreCase))
                     {
                         return false;
                     }
 
-                    Directory.Move(entity.AbsolutePath, newName);
+                    Log.Verbose($"Renaming to '{newName}'");
+                    if (!folderOptions.Preview)
+                    {
+                        Directory.Move(entity.AbsolutePath, newName);
+                    }
+
                     return true;
                 }
 
@@ -63,7 +68,12 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
             try
             {
                 string sourceFileName = entity.AbsolutePath;
-                string destFileName   = Path.Combine(Path.GetDirectoryName(sourceFileName) ?? "", entity.Name.Replace(options.From, options.To));
+                string destFileName   = Path.Combine(Path.GetDirectoryName(sourceFileName) ?? "", entity.Name.Replace(options.From, options.To, StringComparison.InvariantCultureIgnoreCase));
+                if (sourceFileName.Equals(destFileName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return false;
+                }
+
                 Log.Verbose($"Renaming to '{Path.GetFileName(destFileName)}'");
                 if (!options.Preview)
                 {

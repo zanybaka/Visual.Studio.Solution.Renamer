@@ -1,15 +1,23 @@
 ﻿using System;
 using CommandLine;
+using Visual.Studio.Solution.Renamer.Library;
 
 namespace Visual.Studio.Solution.Renamer.CommandLine
 {
-    public class CommandLineOptions
+    public class CommandLineOptions : IRenameOptions
     {
         [Option('a', "apply", Required = false,
                 HelpText               = "Disable preview mode and apply all the changes in the file system (Preview mode is enabled by default)")]
         public bool Apply { get; set; }
 
-        public bool Preview => !Apply;
+        [Option('m', "mask", Required = false, HelpText = "Set the list of file masks to be processed. Default is *.csproj *.cs *.xaml *.xml *.json")]
+        public string Mask { get; set; }
+
+        public bool Preview
+        {
+            get => !Apply;
+            set => Apply = !value;
+        }
 
         [Option('f', "from", Required = false, HelpText = "Set 'From' field for renaming.")]
         public string ReplaceFrom { get; set; }
@@ -29,10 +37,11 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
         [Option('s', "solution", Required = false, HelpText = "Set .sln file.")]
         public string SolutionFile { get; set; }
 
-        [Option('m', "mask", Required = false, HelpText = "Set the list of file masks to be processed. Default is *.csproj *.cs *.xaml *.xml *.json")]
-        public string Mask { get; set; }
-
-        public string[] Masks => Mask.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        public string[] Masks
+        {
+            get => Mask.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            set => Mask = string.Join(' ', value);
+        }
 
         [Option('w', "workingdirectory", Required = false, HelpText = "Set working directory.")]
         public string WorkingDirectory { get; set; }

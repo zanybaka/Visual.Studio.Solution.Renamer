@@ -4,11 +4,28 @@ using Serilog;
 using Visual.Studio.Solution.Renamer.Library.Builder;
 using Visual.Studio.Solution.Renamer.Library.Extension;
 
-namespace Visual.Studio.Solution.Renamer.CommandLine
+namespace Visual.Studio.Solution.Renamer.Library
 {
     public static class Updates
     {
-        public static void UpdateFoldersProjectsAndSolution(CommandLineOptions options)
+        public static void Cleanup(IRenameOptions options, Action onUpdate = null)
+        {
+            if (!options.Cleanup)
+            {
+                return;
+            }
+
+            Update
+                .Folder.FilteredByName("bin", "obj")
+                .Remove
+                .At.Path(options.WorkingDirectory)
+                .Folder.Recursively()
+                .Itself
+                .OnUpdate(onUpdate)
+                .Run(options.Preview);
+        }
+
+        public static void UpdateFoldersProjectsAndSolution(IRenameOptions options, Action onUpdate = null)
         {
             if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
             {
@@ -20,6 +37,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     .Solution(options.SolutionFile)
                     .Replacing(options.ReplaceFrom, options.ReplaceTo)
                     .Names
+                    .OnUpdate(onUpdate)
                     .Run(options.Preview);
 
                 Update
@@ -31,6 +49,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     .From(options.ReplaceFrom)
                     .To(options.ReplaceTo)
                     .Recursively()
+                    .OnUpdate(onUpdate)
                     .Run(options.Preview);
 
                 Update
@@ -42,6 +61,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     .From(options.ReplaceFrom)
                     .To(options.ReplaceTo)
                     .Recursively()
+                    .OnUpdate(onUpdate)
                     .Run(options.Preview);
             }
 
@@ -52,6 +72,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                 .With
                 .Project.FilteredByMask("*.csproj")
                 .Names
+                .OnUpdate(onUpdate)
                 .Run(options.Preview);
 
             Update
@@ -61,6 +82,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                 .With
                 .Project.FilteredByMask("*.csproj")
                 .Names
+                .OnUpdate(onUpdate)
                 .Run(options.Preview);
 
             Update
@@ -70,6 +92,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                 .With
                 .Project.DeclaredInSolution(options.SolutionFile)
                 .Names
+                .OnUpdate(onUpdate)
                 .Run(options.Preview);
 
             if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
@@ -83,6 +106,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     .From(options.ReplaceFrom)
                     .To(options.ReplaceTo)
                     .Recursively()
+                    .OnUpdate(onUpdate)
                     .Run(options.Preview);
 
                 Update
@@ -93,6 +117,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     .File.FilteredByName(Path.GetFileName(options.SolutionFile))
                     .From(options.ReplaceFrom)
                     .To(options.ReplaceTo)
+                    .OnUpdate(onUpdate)
                     .Run(options.Preview);
 
                 Update
@@ -104,11 +129,12 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     .From(options.ReplaceFrom)
                     .To(options.ReplaceTo)
                     .Names
+                    .OnUpdate(onUpdate)
                     .Run(options.Preview);
             }
         }
 
-        public static void UpdateFoldersAndProjects(CommandLineOptions options)
+        public static void UpdateFoldersAndProjects(IRenameOptions options, Action onUpdate = null)
         {
             Update
                 .Folder
@@ -117,6 +143,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                 .With
                 .Project.All()
                 .Names
+                .OnUpdate(onUpdate)
                 .Run(options.Preview);
 
             if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
@@ -130,6 +157,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     .From(options.ReplaceFrom)
                     .To(options.ReplaceTo)
                     .Recursively()
+                    .OnUpdate(onUpdate)
                     .Run(options.Preview);
 
                 Update
@@ -141,6 +169,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     .From(options.ReplaceFrom)
                     .To(options.ReplaceTo)
                     .Recursively()
+                    .OnUpdate(onUpdate)
                     .Run(options.Preview);
             }
 
@@ -151,6 +180,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                 .With
                 .Project.FilteredByMask("*.csproj")
                 .Names
+                .OnUpdate(onUpdate)
                 .Run(options.Preview);
 
             Update
@@ -160,6 +190,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                 .With
                 .Project.FilteredByMask("*.csproj")
                 .Names
+                .OnUpdate(onUpdate)
                 .Run(options.Preview);
 
             if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
@@ -173,6 +204,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                     .From(options.ReplaceFrom)
                     .To(options.ReplaceTo)
                     .Recursively()
+                    .OnUpdate(onUpdate)
                     .Run(options.Preview);
             }
         }
