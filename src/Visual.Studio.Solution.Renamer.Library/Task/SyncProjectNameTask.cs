@@ -19,7 +19,8 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
             bool updated;
             if (!string.IsNullOrEmpty(options.ReplaceNameFrom) && !string.IsNullOrEmpty(options.ReplaceNameTo))
             {
-                project.ProjectName = project.ProjectName.Replace(options.ReplaceNameFrom, options.ReplaceNameTo, StringComparison.InvariantCultureIgnoreCase);
+                project.ProjectName =
+                    project.ProjectName.Replace(options.ReplaceNameFrom, options.ReplaceNameTo, StringComparison.InvariantCultureIgnoreCase);
                 var oldRelativeDir = project.Folder.GetRelativePath(Path.GetDirectoryName(options.SolutionFullPath));
                 updated = UpdateProject(oldRelativeDir, project.Folder, project, options.Preview, keepCsProjFileName: false);
             }
@@ -52,7 +53,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
             {
                 string newValue = Path.Combine(newRelativeDir, currentCsProjFileName);
                 Log.Verbose($"'{newValue}'");
-                if (project.RelativePath == newValue)
+                if (project.RelativePath.Equals(newValue, StringComparison.InvariantCultureIgnoreCase))
                 {
                     Log.Verbose("No changes.");
                     return false;
@@ -65,7 +66,8 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
                 string newCsProjFileName      = $"{project.ProjectName}{ProjectConstants.ProjectExtension}";
                 string projectNewRelativePath = Path.Combine(newRelativeDir, newCsProjFileName);
                 Log.Verbose($"'{projectNewRelativePath}'");
-                if (currentCsProjFileName == newCsProjFileName && project.RelativePath == projectNewRelativePath)
+                if (currentCsProjFileName.Equals(newCsProjFileName, StringComparison.InvariantCultureIgnoreCase) &&
+                    project.RelativePath.Equals(projectNewRelativePath, StringComparison.InvariantCultureIgnoreCase))
                 {
                     Log.Verbose("No changes.");
                     return false;

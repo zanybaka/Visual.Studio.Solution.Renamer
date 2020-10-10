@@ -8,6 +8,18 @@ namespace Visual.Studio.Solution.Renamer.Library
 {
     public static class Updates
     {
+        public static bool ValidateArguments(IRenameOptions options)
+        {
+            if (options.SolutionFile.IsEmpty() && !options.UseCsProj)
+            {
+                Log.Error(
+                    "Solution file is not set. Multiple solutions are not supported. If you have .csproj files only try to set --projects argument.");
+                return false;
+            }
+
+            return true;
+        }
+
         public static void Cleanup(IRenameOptions options, Action onUpdate = null)
         {
             if (!options.Cleanup)
@@ -29,40 +41,46 @@ namespace Visual.Studio.Solution.Renamer.Library
         {
             if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
             {
-                Update
-                    .Project
-                    .Name
-                    .At.Path(options.WorkingDirectory)
-                    .In
-                    .Solution(options.SolutionFile)
-                    .Replacing(options.ReplaceFrom, options.ReplaceTo)
-                    .Names
-                    .OnUpdate(onUpdate)
-                    .Run(options.Preview);
+                if (options.RenameFoldersAndFiles)
+                {
+                    Update
+                        .Project
+                        .Name
+                        .At.Path(options.WorkingDirectory)
+                        .In
+                        .Solution(options.SolutionFile)
+                        .Replacing(options.ReplaceFrom, options.ReplaceTo)
+                        .Names
+                        .OnUpdate(onUpdate)
+                        .Run(options.Preview);
 
-                Update
-                    .Folder
-                    .ReplaceText
-                    .At.Path(options.WorkingDirectory)
-                    .In
-                    .File.FilteredByName(options.Masks)
-                    .From(options.ReplaceFrom)
-                    .To(options.ReplaceTo)
-                    .Recursively()
-                    .OnUpdate(onUpdate)
-                    .Run(options.Preview);
+                    Update
+                        .Folder
+                        .ReplaceText
+                        .At.Path(options.WorkingDirectory)
+                        .In
+                        .File.FilteredByName(options.Masks)
+                        .From(options.ReplaceFrom)
+                        .To(options.ReplaceTo)
+                        .Recursively()
+                        .OnUpdate(onUpdate)
+                        .Run(options.Preview);
+                }
 
-                Update
-                    .Folder
-                    .ReplaceContent
-                    .At.Path(options.WorkingDirectory)
-                    .In
-                    .File.FilteredByName(options.Masks)
-                    .From(options.ReplaceFrom)
-                    .To(options.ReplaceTo)
-                    .Recursively()
-                    .OnUpdate(onUpdate)
-                    .Run(options.Preview);
+                if (options.ReplaceFileContent)
+                {
+                    Update
+                        .Folder
+                        .ReplaceContent
+                        .At.Path(options.WorkingDirectory)
+                        .In
+                        .File.FilteredByName(options.Masks)
+                        .From(options.ReplaceFrom)
+                        .To(options.ReplaceTo)
+                        .Recursively()
+                        .OnUpdate(onUpdate)
+                        .Run(options.Preview);
+                }
             }
 
             Update
@@ -85,92 +103,113 @@ namespace Visual.Studio.Solution.Renamer.Library
                 .OnUpdate(onUpdate)
                 .Run(options.Preview);
 
-            Update
-                .Folder
-                .Names
-                .At.Path(options.WorkingDirectory)
-                .With
-                .Project.DeclaredInSolution(options.SolutionFile)
-                .Names
-                .OnUpdate(onUpdate)
-                .Run(options.Preview);
-
-            if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
+            if (options.RenameFoldersAndFiles)
             {
                 Update
                     .Folder
-                    .ReplaceText
+                    .Names
                     .At.Path(options.WorkingDirectory)
-                    .In
-                    .Folder.FilteredByName($"*{options.ReplaceFrom}*")
-                    .From(options.ReplaceFrom)
-                    .To(options.ReplaceTo)
-                    .Recursively()
-                    .OnUpdate(onUpdate)
-                    .Run(options.Preview);
-
-                Update
-                    .Folder
-                    .ReplaceContent
-                    .At.Path(options.WorkingDirectory)
-                    .In
-                    .File.FilteredByName(Path.GetFileName(options.SolutionFile))
-                    .From(options.ReplaceFrom)
-                    .To(options.ReplaceTo)
-                    .OnUpdate(onUpdate)
-                    .Run(options.Preview);
-
-                Update
-                    .Folder
-                    .ReplaceText
-                    .At.Path(options.WorkingDirectory)
-                    .In
-                    .File.FilteredByName(Path.GetFileName(options.SolutionFile))
-                    .From(options.ReplaceFrom)
-                    .To(options.ReplaceTo)
+                    .With
+                    .Project.DeclaredInSolution(options.SolutionFile)
                     .Names
                     .OnUpdate(onUpdate)
                     .Run(options.Preview);
+            }
+
+            if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
+            {
+                if (options.RenameFoldersAndFiles)
+                {
+                    Update
+                        .Folder
+                        .ReplaceText
+                        .At.Path(options.WorkingDirectory)
+                        .In
+                        .Folder.FilteredByName($"*{options.ReplaceFrom}*")
+                        .From(options.ReplaceFrom)
+                        .To(options.ReplaceTo)
+                        .Recursively()
+                        .OnUpdate(onUpdate)
+                        .Run(options.Preview);
+                }
+
+                if (options.ReplaceFileContent)
+                {
+                    Update
+                        .Folder
+                        .ReplaceContent
+                        .At.Path(options.WorkingDirectory)
+                        .In
+                        .File.FilteredByName(Path.GetFileName(options.SolutionFile))
+                        .From(options.ReplaceFrom)
+                        .To(options.ReplaceTo)
+                        .OnUpdate(onUpdate)
+                        .Run(options.Preview);
+                }
+
+                if (options.RenameFoldersAndFiles)
+                {
+                    Update
+                        .Folder
+                        .ReplaceText
+                        .At.Path(options.WorkingDirectory)
+                        .In
+                        .File.FilteredByName(Path.GetFileName(options.SolutionFile))
+                        .From(options.ReplaceFrom)
+                        .To(options.ReplaceTo)
+                        .Names
+                        .OnUpdate(onUpdate)
+                        .Run(options.Preview);
+                }
             }
         }
 
         public static void UpdateFoldersAndProjects(IRenameOptions options, Action onUpdate = null)
         {
-            Update
-                .Folder
-                .Names
-                .At.Path(options.WorkingDirectory)
-                .With
-                .Project.All()
-                .Names
-                .OnUpdate(onUpdate)
-                .Run(options.Preview);
-
-            if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
+            if (options.RenameFoldersAndFiles)
             {
                 Update
                     .Folder
-                    .ReplaceText
+                    .Names
                     .At.Path(options.WorkingDirectory)
-                    .In
-                    .File.FilteredByName(options.Masks)
-                    .From(options.ReplaceFrom)
-                    .To(options.ReplaceTo)
-                    .Recursively()
+                    .With
+                    .Project.All()
+                    .Names
                     .OnUpdate(onUpdate)
                     .Run(options.Preview);
+            }
 
-                Update
-                    .Folder
-                    .ReplaceContent
-                    .At.Path(options.WorkingDirectory)
-                    .In
-                    .File.FilteredByName(options.Masks)
-                    .From(options.ReplaceFrom)
-                    .To(options.ReplaceTo)
-                    .Recursively()
-                    .OnUpdate(onUpdate)
-                    .Run(options.Preview);
+            if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
+            {
+                if (options.RenameFoldersAndFiles)
+                {
+                    Update
+                        .Folder
+                        .ReplaceText
+                        .At.Path(options.WorkingDirectory)
+                        .In
+                        .File.FilteredByName(options.Masks)
+                        .From(options.ReplaceFrom)
+                        .To(options.ReplaceTo)
+                        .Recursively()
+                        .OnUpdate(onUpdate)
+                        .Run(options.Preview);
+                }
+
+                if (options.ReplaceFileContent)
+                {
+                    Update
+                        .Folder
+                        .ReplaceContent
+                        .At.Path(options.WorkingDirectory)
+                        .In
+                        .File.FilteredByName(options.Masks)
+                        .From(options.ReplaceFrom)
+                        .To(options.ReplaceTo)
+                        .Recursively()
+                        .OnUpdate(onUpdate)
+                        .Run(options.Preview);
+                }
             }
 
             Update
@@ -195,17 +234,20 @@ namespace Visual.Studio.Solution.Renamer.Library
 
             if (options.ReplaceFrom.IsNotEmpty() && options.ReplaceTo.IsNotEmpty())
             {
-                Update
-                    .Folder
-                    .ReplaceText
-                    .At.Path(options.WorkingDirectory)
-                    .In
-                    .Folder.FilteredByName($"*{options.ReplaceFrom}*")
-                    .From(options.ReplaceFrom)
-                    .To(options.ReplaceTo)
-                    .Recursively()
-                    .OnUpdate(onUpdate)
-                    .Run(options.Preview);
+                if (options.RenameFoldersAndFiles)
+                {
+                    Update
+                        .Folder
+                        .ReplaceText
+                        .At.Path(options.WorkingDirectory)
+                        .In
+                        .Folder.FilteredByName($"*{options.ReplaceFrom}*")
+                        .From(options.ReplaceFrom)
+                        .To(options.ReplaceTo)
+                        .Recursively()
+                        .OnUpdate(onUpdate)
+                        .Run(options.Preview);
+                }
             }
         }
 

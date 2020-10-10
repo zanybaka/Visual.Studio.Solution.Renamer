@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using Serilog;
 using Visual.Studio.Solution.Renamer.Library.Builder;
 using Visual.Studio.Solution.Renamer.Library.Entity.Folder;
@@ -27,8 +28,8 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
 
             try
             {
-                string content = File.ReadAllText(entity.AbsolutePath);
-                if (content.Contains(options.From))
+                string content = File.ReadAllText(entity.AbsolutePath, Encoding.Default);
+                if (content.Contains(options.From, StringComparison.InvariantCultureIgnoreCase))
                 {
                     Log.Verbose($"Replacing content in the file '{Path.GetFileName(entity.Name)}' from '{options.From}' to '{options.To}'");
                     if (!options.Preview)

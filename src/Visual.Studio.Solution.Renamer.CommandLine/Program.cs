@@ -28,7 +28,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
 
             PrintArguments(options);
 
-            if (!ValidateArguments(options)) return;
+            if (!Updates.ValidateArguments(options)) return;
 
             try
             {
@@ -62,18 +62,6 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
             }
         }
 
-        private static bool ValidateArguments(CommandLineOptions options)
-        {
-            if (options.SolutionFile.IsEmpty() && !options.UseCsProj)
-            {
-                Log.Error(
-                    "Solution file is not set. Multiple solutions are not supported. If you have .csproj files only try to set --projects argument.");
-                return false;
-            }
-
-            return true;
-        }
-
         private static void PrintArguments(CommandLineOptions options)
         {
             Log.Information("Options:");
@@ -104,7 +92,7 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
         {
             options.WorkingDirectory ??= Environment.CurrentDirectory;
             options.WorkingDirectory =   options.WorkingDirectory.NormalizePath();
-            options.Mask             ??= "*.csproj *.cs *.xaml *.xml *.json";
+            options.Mask             ??= "*.csproj *.cs *.xaml *.xml *.json *.asax *.cshtml *.config *.js";
             if (options.SolutionFile.IsEmpty() && !options.UseCsProj)
             {
                 string[] files = Directory.GetFiles(options.WorkingDirectory, "*.sln");

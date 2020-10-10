@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Visual.Studio.Solution.Renamer.Library.Entity.Project;
 using Visual.Studio.Solution.Renamer.Library.Extension;
@@ -47,7 +48,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Entity
             Regex regex = new Regex(
                 ProjectPattern,
                 RegexOptions.ExplicitCapture | RegexOptions.Singleline);
-            string fileContent = File.ReadAllText(fullPath);
+            string fileContent = File.ReadAllText(fullPath, Encoding.Default);
             var projects = regex.Matches(fileContent)
                 .OfType<Match>()
                 .Select(x => new ProjectInSolution
@@ -80,7 +81,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Entity
 
         public void SaveToDisk()
         {
-            File.WriteAllText(FilePath, FileContent);
+            File.WriteAllText(FilePath, FileContent, Encoding.Default);
         }
     }
 }

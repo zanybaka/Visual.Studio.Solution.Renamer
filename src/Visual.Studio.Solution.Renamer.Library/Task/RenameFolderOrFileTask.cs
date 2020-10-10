@@ -60,7 +60,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
                 throw new ArgumentException("Set 'From' and 'To' properties for renaming");
             }
 
-            if (!entity.Name.Contains(options.From))
+            if (!entity.Name.Contains(options.From, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }

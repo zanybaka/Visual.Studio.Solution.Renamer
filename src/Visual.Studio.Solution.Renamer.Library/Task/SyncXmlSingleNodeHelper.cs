@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text;
 using Microsoft.Build.Definition;
 using Microsoft.Build.Evaluation;
 
@@ -26,7 +27,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
                 csproj.SetProperty(childNodeName, newValue);
                 if (!preview)
                 {
-                    csproj.Save();
+                    csproj.Save(Encoding.Default);
                 }
 
                 return true;

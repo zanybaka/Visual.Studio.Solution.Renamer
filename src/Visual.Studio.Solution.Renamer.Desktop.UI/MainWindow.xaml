@@ -7,7 +7,7 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance ui:UIOptions, IsDesignTimeCreatable=True}"
-        Title="Visual.Studio.Solution.Renamer" Height="700" Width="800">
+        Title="Visual.Studio.Solution.Renamer" Height="740" Width="800">
     <Grid Margin="10">
         <Grid.Resources>
             <Style TargetType="{x:Type Button}">
@@ -33,6 +33,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -105,12 +106,18 @@
         <TextBlock Grid.Row="8" Text="Verbose?" />
         <CheckBox Grid.Row="8" IsChecked="{Binding Verbose}" Grid.Column="2" />
 
-        <TextBlock Grid.Row="10" Text="Output:" />
-        <TextBox Grid.Row="10" x:Name="txtOutput" Grid.Column="2" Margin="0 15 0 15"
+        <TextBlock Grid.Row="9" Text="Don't rename file/folders" />
+        <CheckBox Grid.Row="9" IsChecked="{Binding DoNotRenameFoldersAndFiles}" Grid.Column="2" Checked="OnDoNotRenameFoldersAndFilesChecked" Unchecked="OnDoNotRenameFoldersAndFilesUnchecked" />
+
+        <TextBlock Grid.Row="10" Text="Don't replace file content" />
+        <CheckBox Grid.Row="10" IsChecked="{Binding DoNotReplaceFileContent}" Grid.Column="2" />
+
+        <TextBlock Grid.Row="11" Text="Output:" />
+        <TextBox Grid.Row="11" x:Name="txtOutput" Grid.Column="2" Margin="0 15 0 15"
                  HorizontalScrollBarVisibility="Auto"
                  VerticalScrollBarVisibility="Visible" />
 
-        <DockPanel Grid.ColumnSpan="3" Grid.Row="11" HorizontalAlignment="Right">
+        <DockPanel Grid.ColumnSpan="3" Grid.Row="12" HorizontalAlignment="Right">
             <Button Content="Rename" Click="OnRenameClick" Width="80" />
             <Button Content="Close" IsDefault="True" Click="OnCloseClick" Width="80" />
         </DockPanel>

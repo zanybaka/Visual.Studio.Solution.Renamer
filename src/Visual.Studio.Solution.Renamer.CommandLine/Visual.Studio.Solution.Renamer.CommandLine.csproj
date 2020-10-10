@@ -20,14 +20,14 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zanybaka/Visual.Studio.Solution.Renamer</RepositoryUrl>
     <PackageReleaseNotes>Initial version</PackageReleaseNotes>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE" Pack="True" Visible="False" PackagePath="">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />

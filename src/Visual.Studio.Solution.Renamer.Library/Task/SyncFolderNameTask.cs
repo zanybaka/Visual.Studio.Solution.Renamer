@@ -33,7 +33,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
 
         private static bool UpdateFolderName(string currentFolder, string newFolder, UpdateProjectOptions options)
         {
-            if (currentFolder == newFolder)
+            if (currentFolder.Equals(newFolder, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }

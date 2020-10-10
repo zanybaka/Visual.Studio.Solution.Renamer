@@ -4,6 +4,10 @@
     {
         bool Preview { get; set; }
 
+        bool RenameFoldersAndFiles { get; set; }
+        
+        bool ReplaceFileContent { get; set; }
+
         string ReplaceFrom { get; set; }
 
         string ReplaceTo { get; set; }

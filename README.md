@@ -67,6 +67,9 @@ Be aware
 - &#x1F534; Tested with
     - Microsoft Visual Studio Solution File, Format Version 12.00
     - Visual Studio Version 16 (2019)
+- &#x1F534; It's strongly recommended to perform renaming with the following two steps:
+    1. Replace file content, review the changes and commit (svn, git, etc.)
+    2. Rename files and folders
 
 References
 ---

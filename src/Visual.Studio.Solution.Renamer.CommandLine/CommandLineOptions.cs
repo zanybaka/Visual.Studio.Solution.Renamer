@@ -10,13 +10,31 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
                 HelpText               = "Disable preview mode and apply all the changes in the file system (Preview mode is enabled by default)")]
         public bool Apply { get; set; }
 
-        [Option('m', "mask", Required = false, HelpText = "Set the list of file masks to be processed. Default is *.csproj *.cs *.xaml *.xml *.json")]
+        [Option('m', "mask", Required = false, HelpText = "Set the list of file masks to be processed. Default is *.csproj *.cs *.xaml *.xml *.json *.asax *.cshtml *.config *.js")]
         public string Mask { get; set; }
 
         public bool Preview
         {
             get => !Apply;
             set => Apply = !value;
+        }
+
+        [Option('n', "norename", Required = false, HelpText = "Disable file/folder renaming. Default is True", Default = true)]
+        public bool DoNotRenameFoldersAndFiles { get; set; }
+
+        public bool RenameFoldersAndFiles
+        {
+            get => !DoNotRenameFoldersAndFiles;
+            set => DoNotRenameFoldersAndFiles = !value;
+        }
+
+        [Option('r', "noreplacecontent", Required = false, HelpText = "Disable file content replacing. Default is False", Default = false)]
+        public bool DoNotReplaceFileContent { get; set; }
+
+        public bool ReplaceFileContent
+        {
+            get => !DoNotReplaceFileContent;
+            set => DoNotReplaceFileContent = !value;
         }
 
         [Option('f', "from", Required = false, HelpText = "Set 'From' field for renaming.")]
