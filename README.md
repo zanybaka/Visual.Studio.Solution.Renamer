@@ -22,6 +22,8 @@ vsrenamer.exe -w <solution directory> [other parameters]
 Examples:
 ```shell
 vsrenamer.exe --help
+vsrenamer.exe -a -f Old -t New -c -w .\src --rename false --replacecontent true
+vsrenamer.exe -a -f Old -t New -c -w .\src --rename true  --replacecontent false
 vsrenamer.exe --workingdirectory c:\Sources\projectA\src\ --apply --from projectA --to projectAAA --solution MySolution.sln
 vsrenamer.exe -w c:\Sources\projectA\src\ --apply --cleanup
 vsrenamer.exe -w c:\Sources\projectB\src\ -a -f projectB -t projectBBB -c --projects --mask "*.csproj *.cs *.xaml"
@@ -39,6 +41,15 @@ dotnet tool install -g vsrenamer_gui
 vsrenamer_gui.exe
 ```
 
+<details>
+  <summary>Screenshots...</summary>
+  
+  <img src="cmd.png" width="1073px" />
+  <br/>
+  <img src="gui.png" width="786px" />
+</details>
+<br/>
+
 Under the hood
 ---
 
@@ -49,6 +60,7 @@ Here is the list of actions to be done during the process of renaming
 - Update their relative paths in the .sln file
 - Set proper AssemblyName and RootNamespace in the .csproj files
 - Replace text in files. By default, *.cs *.xaml *.xml *.json *.asax *.cshtml *.config *.js
+
 
 Limitations
 ---

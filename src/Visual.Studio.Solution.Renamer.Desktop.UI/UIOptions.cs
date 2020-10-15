@@ -14,21 +14,9 @@ namespace Visual.Studio.Solution.Renamer.Desktop.UI
         
         public bool Preview { get; set; }
 
-        public bool RenameFoldersAndFiles
-        {
-            get => !DoNotRenameFoldersAndFiles;
-            set => DoNotRenameFoldersAndFiles = !value;
-        }
+        public bool RenameFoldersAndFiles { get; set; }
 
-        public bool DoNotRenameFoldersAndFiles { get; set; }
-
-        public bool ReplaceFileContent
-        {
-            get => !DoNotReplaceFileContent;
-            set => DoNotReplaceFileContent = !value;
-        }
-        
-        public bool DoNotReplaceFileContent { get; set; }
+        public bool ReplaceFileContent { get; set; }
 
         public string ReplaceFrom { get; set; }
 

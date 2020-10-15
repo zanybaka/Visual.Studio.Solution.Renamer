@@ -19,28 +19,28 @@ namespace Visual.Studio.Solution.Renamer.CommandLine
             set => Apply = !value;
         }
 
-        [Option('n', "norename", Required = false, HelpText = "Disable file/folder renaming. Default is True", Default = true)]
-        public bool DoNotRenameFoldersAndFiles { get; set; }
+        [Option('n', "rename", Required = false, HelpText = "Enable file/folder renaming", Default = false)]
+        public bool? RenameFolderAndFileNames { get; set; }
 
         public bool RenameFoldersAndFiles
         {
-            get => !DoNotRenameFoldersAndFiles;
-            set => DoNotRenameFoldersAndFiles = !value;
+            get => RenameFolderAndFileNames == true;
+            set => RenameFolderAndFileNames = value;
         }
 
-        [Option('r', "noreplacecontent", Required = false, HelpText = "Disable file content replacing. Default is False", Default = false)]
-        public bool DoNotReplaceFileContent { get; set; }
+        [Option('r', "replacecontent", Required = false, HelpText = "Enable file content replacing", Default = true)]
+        public bool? ReplaceInFileContent { get; set; }
 
         public bool ReplaceFileContent
         {
-            get => !DoNotReplaceFileContent;
-            set => DoNotReplaceFileContent = !value;
+            get => ReplaceInFileContent == true;
+            set => ReplaceInFileContent = value;
         }
 
-        [Option('f', "from", Required = false, HelpText = "Set 'From' field for renaming.")]
+        [Option('f', "from", Required = false, HelpText = "Set 'From' field for renaming and replacing.")]
         public string ReplaceFrom { get; set; }
 
-        [Option('t', "to", Required = false, HelpText = "Set 'To' field for renaming.")]
+        [Option('t', "to", Required = false, HelpText = "Set 'To' field for renaming and replacing.")]
         public string ReplaceTo { get; set; }
 
         [Option('c', "cleanup", Required = false, HelpText = "Remove 'bin' and 'obj' directories.")]

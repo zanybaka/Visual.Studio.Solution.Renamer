@@ -22,6 +22,7 @@ Here is the list of actions to be done during the process of renaming
 - Set proper AssemblyName and RootNamespace in the .csproj files
 - Replace text in files. By default, *.cs *.xaml *.xml *.json *.asax *.cshtml *.config *.js
 
+
 Limitations
 ---
 

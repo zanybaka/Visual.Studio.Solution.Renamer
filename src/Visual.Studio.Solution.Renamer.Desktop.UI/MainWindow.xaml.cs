@@ -27,14 +27,14 @@ namespace Visual.Studio.Solution.Renamer.Desktop.UI
         {
             _options = new UIOptions
             {
-                WorkingDirectory           = Environment.CurrentDirectory,
-                Cleanup                    = true,
-                UseCsProj                  = false,
-                Masks                      = new[] { "*.xml", "*.xaml", "*.cs", "*.csproj", "*.asax", "*.cshtml", "*.config", "*.js" },
-                Preview                    = true,
-                Verbose                    = true,
-                DoNotRenameFoldersAndFiles = true,
-                DoNotReplaceFileContent    = false
+                WorkingDirectory      = Environment.CurrentDirectory,
+                Cleanup               = true,
+                UseCsProj             = false,
+                Masks                 = new[] { "*.xml", "*.xaml", "*.cs", "*.csproj", "*.asax", "*.cshtml", "*.config", "*.js" },
+                Preview               = true,
+                Verbose               = true,
+                RenameFoldersAndFiles = false,
+                ReplaceFileContent    = true
             };
 
             DataContext = _options;
@@ -159,7 +159,7 @@ namespace Visual.Studio.Solution.Renamer.Desktop.UI
             }
         }
 
-        private void OnDoNotRenameFoldersAndFilesUnchecked(object sender, RoutedEventArgs e)
+        private void OnRenameFoldersAndFilesChecked(object sender, RoutedEventArgs e)
         {
             var projects = _options.MaskCollection.FirstOrDefault(x => x.Value.Equals("*.csproj", StringComparison.InvariantCultureIgnoreCase));
             if (projects == null)
@@ -168,7 +168,7 @@ namespace Visual.Studio.Solution.Renamer.Desktop.UI
             }
         }
 
-        private void OnDoNotRenameFoldersAndFilesChecked(object sender, RoutedEventArgs e)
+        private void OnRenameFoldersAndFilesUnchecked(object sender, RoutedEventArgs e)
         {
             var projects = _options.MaskCollection.FirstOrDefault(x => x.Value.Equals("*.csproj", StringComparison.InvariantCultureIgnoreCase));
             if (projects != null)

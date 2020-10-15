@@ -106,11 +106,11 @@
         <TextBlock Grid.Row="8" Text="Verbose?" />
         <CheckBox Grid.Row="8" IsChecked="{Binding Verbose}" Grid.Column="2" />
 
-        <TextBlock Grid.Row="9" Text="Don't rename file/folders" />
-        <CheckBox Grid.Row="9" IsChecked="{Binding DoNotRenameFoldersAndFiles}" Grid.Column="2" Checked="OnDoNotRenameFoldersAndFilesChecked" Unchecked="OnDoNotRenameFoldersAndFilesUnchecked" />
+        <TextBlock Grid.Row="9" Text="Rename file/folders" />
+        <CheckBox Grid.Row="9" IsChecked="{Binding RenameFoldersAndFiles}" Grid.Column="2" Checked="OnRenameFoldersAndFilesChecked" Unchecked="OnRenameFoldersAndFilesUnchecked" />
 
-        <TextBlock Grid.Row="10" Text="Don't replace file content" />
-        <CheckBox Grid.Row="10" IsChecked="{Binding DoNotReplaceFileContent}" Grid.Column="2" />
+        <TextBlock Grid.Row="10" Text="Replace file content" />
+        <CheckBox Grid.Row="10" IsChecked="{Binding ReplaceFileContent}" Grid.Column="2" />
 
         <TextBlock Grid.Row="11" Text="Output:" />
         <TextBox Grid.Row="11" x:Name="txtOutput" Grid.Column="2" Margin="0 15 0 15"
