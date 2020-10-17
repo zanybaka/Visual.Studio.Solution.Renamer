@@ -1,6 +1,10 @@
 Visual Studio Solution Renamer
 ===
 
+[![NuGet Badge](https://buildstats.info/nuget/vsrenamer)](https://www.nuget.org/packages/vsrenamer/)
+
+[![Build Stats](https://buildstats.info/github/chart/ZanyBaka/Visual.Studio.Solution.Renamer?showStats=false&buildCount=2)]()
+
 Allows to rename a solution, its projects and namespaces.<br/>
 Please note *Preview* mode is supported and enabled by default.
 
@@ -36,6 +40,9 @@ vsrenamer.exe -w c:\Sources\projectD\src\ -a -f projectD -t projectDDD -c -m "*.
 ```
 
 Also you can install and run its GUI version
+
+[![NuGet Badge](https://buildstats.info/nuget/vsrenamer_gui)](https://www.nuget.org/packages/vsrenamer_gui/)
+
 ```shell
 dotnet tool install -g vsrenamer_gui
 vsrenamer_gui.exe
