@@ -29,12 +29,17 @@ namespace Visual.Studio.Solution.Renamer.Library.Extension
                 .Replace(oldValue, newValue, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public static string ReplaceOnceIgnoreCase(this string input, string oldValue, string newValue)
+        public static string ReplaceSmartIgnoreCase(this string input, string oldValue, string newValue)
         {
-            return input
-                .Replace(newValue, "-->$:temp:$<--", StringComparison.InvariantCultureIgnoreCase)
-                .Replace(oldValue, newValue, StringComparison.InvariantCultureIgnoreCase)
-                .Replace("-->$:temp:$<--", newValue);
+            if (newValue.Contains(oldValue, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return input
+                    .Replace(newValue, "-->$:temp:$<--", StringComparison.InvariantCultureIgnoreCase)
+                    .Replace(oldValue, newValue, StringComparison.InvariantCultureIgnoreCase)
+                    .Replace("-->$:temp:$<--", newValue);
+            }
+
+            return ReplaceIgnoreCase(input, oldValue, newValue);
         }
     }
 }

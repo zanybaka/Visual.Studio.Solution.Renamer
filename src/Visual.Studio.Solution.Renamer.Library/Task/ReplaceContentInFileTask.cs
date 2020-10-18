@@ -38,7 +38,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
                         File.WriteAllText(
                             entity.AbsolutePath,
                             content
-                                .ReplaceOnceIgnoreCase(
+                                .ReplaceSmartIgnoreCase(
                                     options.From,
                                     options.To));
                     }

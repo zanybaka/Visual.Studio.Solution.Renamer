@@ -32,7 +32,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
                     }
 
                     string newName = Path.Combine(Path.GetDirectoryName(entity.AbsolutePath),
-                                                  Path.GetFileName(entity.AbsolutePath).ReplaceOnceIgnoreCase(folderOptions.From, folderOptions.To));
+                                                  Path.GetFileName(entity.AbsolutePath).ReplaceSmartIgnoreCase(folderOptions.From, folderOptions.To));
                     if (entity.AbsolutePath.Equals(newName, StringComparison.InvariantCultureIgnoreCase))
                     {
                         return false;
@@ -69,7 +69,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
             try
             {
                 string sourceFileName = entity.AbsolutePath;
-                string destFileName   = Path.Combine(Path.GetDirectoryName(sourceFileName) ?? "", entity.Name.ReplaceOnceIgnoreCase(options.From, options.To));
+                string destFileName   = Path.Combine(Path.GetDirectoryName(sourceFileName) ?? "", entity.Name.ReplaceSmartIgnoreCase(options.From, options.To));
                 if (sourceFileName.Equals(destFileName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     return false;
