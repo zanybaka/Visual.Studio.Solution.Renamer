@@ -50,7 +50,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
 
         private static bool AreNamesSynced(string projectName, string oldFolder)
         {
-            return oldFolder.EndsWith(projectName, ignoreCase: true, culture: null);
+            return Path.GetFileName(oldFolder).Equals(projectName, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }
