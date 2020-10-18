@@ -71,12 +71,11 @@ namespace Visual.Studio.Solution.Renamer.Library.Entity
 
         public void UpdateProject(ProjectInSolution project)
         {
-            FileContent = FileContent.Replace(
+            FileContent = FileContent.ReplaceIgnoreCase(
                 project.RawValue,
                 string.Format(ProjectFormat, project.TypeGuid, project.ProjectName,
                               project.RelativePath,
-                              project.Guid, project.Content),
-                StringComparison.InvariantCultureIgnoreCase);
+                              project.Guid, project.Content));
         }
 
         public void SaveToDisk()

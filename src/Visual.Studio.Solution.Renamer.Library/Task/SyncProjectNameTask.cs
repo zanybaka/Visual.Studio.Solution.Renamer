@@ -20,7 +20,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
             if (!string.IsNullOrEmpty(options.ReplaceNameFrom) && !string.IsNullOrEmpty(options.ReplaceNameTo))
             {
                 project.ProjectName =
-                    project.ProjectName.Replace(options.ReplaceNameFrom, options.ReplaceNameTo, StringComparison.InvariantCultureIgnoreCase);
+                    project.ProjectName.ReplaceOnceIgnoreCase(options.ReplaceNameFrom, options.ReplaceNameTo);
                 var oldRelativeDir = project.Folder.GetRelativePath(Path.GetDirectoryName(options.SolutionFullPath));
                 updated = UpdateProject(oldRelativeDir, project.Folder, project, options.Preview, keepCsProjFileName: false);
             }

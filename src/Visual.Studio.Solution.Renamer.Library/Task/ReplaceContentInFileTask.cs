@@ -4,6 +4,7 @@ using System.Text;
 using Serilog;
 using Visual.Studio.Solution.Renamer.Library.Builder;
 using Visual.Studio.Solution.Renamer.Library.Entity.Folder;
+using Visual.Studio.Solution.Renamer.Library.Extension;
 using Visual.Studio.Solution.Renamer.Library.Task.Common;
 
 namespace Visual.Studio.Solution.Renamer.Library.Task
@@ -37,10 +38,9 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
                         File.WriteAllText(
                             entity.AbsolutePath,
                             content
-                                .Replace(
+                                .ReplaceOnceIgnoreCase(
                                     options.From,
-                                    options.To,
-                                    StringComparison.InvariantCultureIgnoreCase));
+                                    options.To));
                     }
 
                     Log.Verbose("Replaced.");

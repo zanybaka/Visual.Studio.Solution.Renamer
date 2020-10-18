@@ -22,5 +22,19 @@ namespace Visual.Studio.Solution.Renamer.Library.Extension
                 throw new NotSupportedException($"Mask must be ended with {ProjectConstants.ProjectExtension}. Wrong value: {value}");
             }
         }
+
+        public static string ReplaceIgnoreCase(this string input, string oldValue, string newValue)
+        {
+            return input
+                .Replace(oldValue, newValue, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public static string ReplaceOnceIgnoreCase(this string input, string oldValue, string newValue)
+        {
+            return input
+                .Replace(newValue, "-->$:temp:$<--", StringComparison.InvariantCultureIgnoreCase)
+                .Replace(oldValue, newValue, StringComparison.InvariantCultureIgnoreCase)
+                .Replace("-->$:temp:$<--", newValue);
+        }
     }
 }

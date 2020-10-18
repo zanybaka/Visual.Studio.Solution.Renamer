@@ -4,6 +4,7 @@ using System.Linq;
 using Serilog;
 using Visual.Studio.Solution.Renamer.Library.Builder;
 using Visual.Studio.Solution.Renamer.Library.Entity.Folder;
+using Visual.Studio.Solution.Renamer.Library.Extension;
 using Visual.Studio.Solution.Renamer.Library.Task.Common;
 
 namespace Visual.Studio.Solution.Renamer.Library.Task
@@ -31,7 +32,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
                     }
 
                     string newName = Path.Combine(Path.GetDirectoryName(entity.AbsolutePath),
-                                                  Path.GetFileName(entity.AbsolutePath).Replace(folderOptions.From, folderOptions.To, StringComparison.InvariantCultureIgnoreCase));
+                                                  Path.GetFileName(entity.AbsolutePath).ReplaceOnceIgnoreCase(folderOptions.From, folderOptions.To));
                     if (entity.AbsolutePath.Equals(newName, StringComparison.InvariantCultureIgnoreCase))
                     {
                         return false;
@@ -68,7 +69,7 @@ namespace Visual.Studio.Solution.Renamer.Library.Task
             try
             {
                 string sourceFileName = entity.AbsolutePath;
-                string destFileName   = Path.Combine(Path.GetDirectoryName(sourceFileName) ?? "", entity.Name.Replace(options.From, options.To, StringComparison.InvariantCultureIgnoreCase));
+                string destFileName   = Path.Combine(Path.GetDirectoryName(sourceFileName) ?? "", entity.Name.ReplaceOnceIgnoreCase(options.From, options.To));
                 if (sourceFileName.Equals(destFileName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     return false;
